@@ -1,0 +1,76 @@
+
+.card_content_color
+{
+    background-color: cadetblue;
+}
+
+.btn-floating
+{
+    margin-top: -7px;
+    margin-right: -10px;
+}
+
+.wrap_word
+{
+    word-wrap: break-word!important;
+}
+
+input[type=search] {
+    border: 2px solid cadetblue!important;
+}
+
+.clear
+{
+    clear: both;
+}
+
+.search_product
+{
+    border-radius: 50px!important;
+    padding-left: 20px!important;
+    border-color: cadetblue!important;
+}
+
+.search_button
+{
+    margin-bottom: 6px;
+}
+
+.search_lable
+{
+    margin-top: 40px;
+    margin-left: 30px;
+}
+
+.input-field>label:not(.label-icon).active
+{
+    transform: translateY(-20px) scale(0.8);
+}
+
+.city_in_search
+{
+    margin-top: 30px;
+}
+
+
+.card_price
+{
+    margin-top: 0px!important;
+}
+
+.img_card
+{
+    height: 200px!important;
+    width: 250px!important;
+    margin: 0 auto;
+}
+
+.card_action_link
+{
+}
+
+.card_action_link_text
+{
+    text-transform: capitalize!important;
+    color: cadetblue!important;
+}

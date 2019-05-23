@@ -1,0 +1,30 @@
+.border-style{
+    border: 2px outset;
+}
+
+.add_form {
+    margin-top: 30px;
+}
+
+.face_icons{
+    margin-top: 20px;
+}
+
+.Product_add_style {
+
+    color: grey;
+}
+
+.font_add_product{
+    font-size: 20px;
+    text-align: center;
+}
+
+.submit_btn{
+    margin-bottom: 20px;
+}
+
+.waves-effect input[type="button"], .waves-effect input[type="reset"], .waves-effect input[type="submit"]
+{
+    color: white;
+}

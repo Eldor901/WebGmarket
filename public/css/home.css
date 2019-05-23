@@ -1,0 +1,32 @@
+.input-search
+{
+    padding-left: 15px!important;
+    border-radius: 50px!important;
+    border: #f4f4f4 3px solid !important;
+}
+
+.search_with_input
+{
+    position: initial!important;
+}
+
+.search_button
+{
+    margin-bottom: 10px;
+    background-color: cornflowerblue!important;
+}
+
+.input-field .prefix.active
+{
+    color: aquamarine;
+}
+
+.Gmarket_color
+{
+    color: white;
+}
+
+.camera_fix
+{
+    margin-top: 5px;
+}
