@@ -49,7 +49,7 @@
                             <div class="form-group row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">message</i>
-                                    {{ Form::label('description_market', 'Market Description: ') }}
+                                    {{ Form::label('description_market', 'Market Location: ') }}
                                     <input id="description_market" type="text" class="validate" required="" aria-required="true" name="description_market">
                                 </div>
                                 @if ($errors->has('description_market'))

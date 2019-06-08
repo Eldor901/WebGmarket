@@ -8,3 +8,18 @@
 {
     height: 200px;
 }
+
+td, th
+{
+    padding: 5px 5px;
+}
+
+.productname
+{
+    width: 40%!important;
+}
+
+.color_icon
+{
+    color: yellowgreen!important;
+}

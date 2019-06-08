@@ -13,7 +13,7 @@
                         <i class="material-icons right">home</i>
                     </a>
                 @endauth
-                <li class="active"><a href="/search">Search</a></li>
+                <li class=" "><a href="{{ URL::to('search/' . $name_city )}}">Search</a></li>
             </ul>
         </div>
     </div>

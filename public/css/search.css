@@ -60,7 +60,7 @@ input[type=search] {
 
 .img_card
 {
-    height: 200px!important;
+    min-height: 100px!important;
     width: 250px!important;
     margin: 0 auto;
 }
@@ -69,8 +69,34 @@ input[type=search] {
 {
 }
 
+.found_result
+{
+    text-align: center;
+}
+
 .card_action_link_text
 {
     text-transform: capitalize!important;
     color: cadetblue!important;
+}
+
+img.responsive-img, video.responsive-video
+{
+    max-width: 50%;
+}
+
+.card_height
+{
+    height: 200px;
+}
+
+.place_show_market
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.phone_show_market
+{
+    margin-bottom: 10px;
 }

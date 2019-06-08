@@ -32,19 +32,6 @@
                 @csrf
                     <div class="form-group row">
                         <div class="input-field col s12">
-                            <i class="material-icons prefix">location_city</i>
-                            {{ Form::label('id_city', 'Your City: ') }}
-                            <input id="id_city" type="text" class="validate autocomplete" required="" aria-required="true" name="id_city" value="{{Auth::user()->id_city}}" >
-                        </div>
-                        @if ($errors->has('id_city'))
-                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('id_city') }}</strong>
-                            </span>5
-                        @endif
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="input-field col s12">
                             <i class="material-icons prefix">store</i>
                             {{ Form::label('name_market', 'MarketName: ') }}
                             <input id="name_market" type="text" class="validate" required="" aria-required="true" name="name_market" value="{{Auth::user()->name_market}}">

@@ -19,9 +19,10 @@ class MarketPosts extends Controller
      */
     public function index()
     {
-        $postProduct = auth()->user()->products;
+        $postProduct = auth()->user()->products()->paginate(30);
+        $products = auth()->user()->products()->get();
 
-        return view('product.pages.index')->withpostProduct($postProduct);
+        return view('product.pages.index',['postProduct' => $postProduct, 'product' => $products]);
     }
 
     /*
@@ -59,6 +60,7 @@ class MarketPosts extends Controller
 
         $user_id -> products()->attach($id_product);
 
+        session()->flash('notif', 'Succses in saving product');
 
        return redirect()->route('addForm.show', $post->id_product);
 
@@ -70,7 +72,7 @@ class MarketPosts extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_product, Request $request)
+    public function show($id_product)
     {
         $post = Product::find($id_product);
 
@@ -100,6 +102,7 @@ class MarketPosts extends Controller
     public function update(Request $request, $id_product)
     {
         $post = Product::find($id_product);
+
         if ($request->hasFile('url_product'))
         {
             Storage::disk('public')->delete($post->url_product);
@@ -109,6 +112,7 @@ class MarketPosts extends Controller
         $post -> name_product = $request -> product_type;
         $post -> description_product = $request-> photo_description;
         $post -> price = $request-> price;
+        $post -> isApproved = '0';
 
         $post->save();
         return redirect()->route('addForm.index', $post->id_product);
@@ -127,6 +131,14 @@ class MarketPosts extends Controller
         $post -> delete();
 
         return redirect() -> route('addForm.index');
+    }
+
+    public function deleteProduct(Request $request)
+    {
+        if ($request->ajax()) {
+            $post = Product::find($request->input('id'));
+            $post->delete();
+        }
     }
 
 }

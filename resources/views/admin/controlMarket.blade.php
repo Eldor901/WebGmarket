@@ -6,7 +6,7 @@
 @section('css-file')
     <link rel="stylesheet" href="{{asset('css/Addform.css')}}">
     <link rel="stylesheet" href="{{asset('css/productIndexStyle.css')}}">
-    <link rel="stylesheet" href="{{asset('css/adminControlProduct.css')}}">
+    <link rel="stylesheet" href="{{asset('css/adminMarket.css')}}">
     <meta name="csrf-token" content="{{csrf_token()}}">
     <!-- Scripts -->
 
@@ -18,7 +18,7 @@
 @section('content')
     @if(count($postMarket) > 0)
         <h3 class="center-align">All Markets</h3>
-        <table class="highlight centered responsive-table" id="user_tab">
+        <table class="highlight centered responsive-table" id="table">
             <thead>
             <tr>
                 <th>Data(d.m.y)</th>
@@ -29,21 +29,22 @@
             </thead>
             <tbody>
             @foreach($postMarket as $post_market)
-                <tr>
-                    <td>{{$post_market -> name_market}}</td>
-                    <td>{{$post_market -> email}}</td>
-                    <td>{{ Carbon\Carbon::parse($post_market->created_at)->format('d.m.Y') }}</td>
-                    <td>
-                        <div class="row product_post_row">
-                            {!! Form::open(['method' => 'DELETE', 'route' => ['admin.destroyMarket', $post_market -> id_market]]) !!}
-                            <button href="javascript:;" class="btn waves-effect waves-light red darken-1 col s5 offset-s3 delete" token="{{ csrf_token() }}" route="{!! route('admin.destroyMarket')!!}" rel="{{ $post_market -> id_market }}"  type="submit" name="action">
-                                <i class="material-icons icon_delete">delete</i>
-                            </button>
-                            {!! Form::close() !!}
-
-                        </div>
-                    </td>
-                </tr>
+                    @if ($post_market ->isAdmin != 1)
+                        <tr>
+                            <td>{{$post_market -> name_market}}</td>
+                            <td>{{$post_market -> email}}</td>
+                            <td>{{ Carbon\Carbon::parse($post_market->created_at)->format('d.m.Y') }}</td>
+                            <td class="td_btn">
+                                <div class="row product_post_row">
+                                    {!! Form::open(['method' => 'DELETE', 'route' => ['admin.destroyMarket', $post_market -> id_market]]) !!}
+                                    <a href="#" class="btn  remove waves-effect waves-light red darken-1 col s5 offset-s3 delete" token="{{ csrf_token() }}" route="{!! route('admin.destroyMarket')!!}" rel="{{ $post_market -> id_market }}"  type="submit" name="action">
+                                        <i class="material-icons icon_delete">delete</i>
+                                    </a>
+                                    {!! Form::close() !!}
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
             @endforeach
             </tbody>
         </table>
@@ -54,35 +55,12 @@
 
 
 @section('js')
-    <script >
+    <script>
         $(document).ready(function(){
             $('.modal').modal();
             $('.sidenav').sidenav();
         });
-
-        $(function()
-        {
-            $(".delete").on('click', function()
-            {
-                if (confirm("Вы действительно хотите удалить эту запись?"))
-                {
-                    let id = $(this).attr("rel");
-                    let route = $(this).attr("route");
-                    let token = $(this).attr("token");
-                    $.ajax(
-                        {
-                            type: "DELETE",
-                            url: route,
-                            data: { _token: token, id: id },
-                            complete: function()
-                            {
-                              //  location.reload();
-                            }
-                        });
-                }
-            });
-        });
-
-
     </script>
+
+
 @endsection

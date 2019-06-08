@@ -34,7 +34,7 @@
             <span class="white-text email">{{Auth::user()->email}}</span>
         </div>
     </li>
-    <li><a href="/"><i class="material-icons waves-effect">search</i>Search Products</a></li>
+    <li><a href="/"><i class="material-icons waves-effect">search</i>Search Globaly</a></li>
     <li><div class="divider"></div></li>
     <li><a href="/addForm " class="waves-effect">My Products</a></li>
     <li><a href="/addForm/create">AddProduct</a></li>

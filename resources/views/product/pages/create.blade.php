@@ -64,6 +64,12 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        @if(session()->has('notif'))
+            <div class="">
+            </div>
+        @endif
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
