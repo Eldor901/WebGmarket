@@ -6,7 +6,7 @@
             <li>
                 <a data-target="slide-out" class="sidenav-trigger show-on-medium-and-up show-on-medium-and-down">Menu</a>
             </li>
-            <li class="hide-on-small-only"><a href="/">Search</a></li>
+            <li class="hide-on-small-only"><a href="{{route('/')}}">Search</a></li>
             <li class="hide-on-small-only">
                 <a class="dropdown-item" href="{{ route('logout') }}"
                    onclick="event.preventDefault();

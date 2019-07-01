@@ -54,7 +54,8 @@ class RegisterController extends Controller
             'name_market' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-
+            'number_market' => ['required', 'min:10'],
+            'id' => ['required'],
         ]);
     }
 
@@ -70,8 +71,13 @@ class RegisterController extends Controller
 
         $user->id_city = $data['id_city'];
 
+
         $id = City::where('name_city', $user->id_city)->first()->id_city;
 
+        if ($id == null)
+        {
+            abort(404, "did not found city please write to Gmarket to further information");
+        }
 
         return User::create([
             'name_market' => $data['name_market'],

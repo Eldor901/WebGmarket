@@ -35,13 +35,13 @@ class HomeController extends Controller
 
     public function edit($id_market)
     {
-        $id_market = User::find($id_market);
+        $id_market = User::findOrFail($id_market);
         return view('auth.editMarket')-> withPost($id_market);
     }
 
     public function update(Request $request, $id_market)
     {
-        $post = User::find($id_market);
+        $post = User::findOrFail($id_market);
 
         $post->name_market = $request -> name_market;
         $post->description_market = $request -> description_market;

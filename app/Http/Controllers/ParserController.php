@@ -12,15 +12,16 @@ use http\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 use Symfony\Component\DomCrawler\Crawler;
-
-
+use League\Csv\Reader;
+use League\Csv\Statement;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 class ParserController
 {
-
     public function getContentSportMaster(Request $request)
     {
         ini_set('max_execution_time', 280);
-        for ($numPage  = 1; $numPage <= 4; $numPage++ ){
+        for ($numPage  = 1; $numPage <= 1; $numPage++ ){
             $client = new \GuzzleHttp\Client(['verify' => false]);
             $url = 'https://www.sportmaster.ru/catalog/zhenskaya_obuv/krossovki/?page='.$numPage;
             $res = $client->request('GET', $url);
@@ -45,7 +46,6 @@ class ParserController
                         'updated_at' => date("Y-m-d H:i:s"),
                         'isApproved' => '1'
                     ];
-
                     return $product;
                 }
             });
@@ -55,8 +55,14 @@ class ParserController
                 foreach ($products as $product) {
                     $image_content = file_get_contents($product['image']);
                     $img_link = uniqid();
-                    file_put_contents('storage/uploadSportmaster/' . $img_link . '.jpg', $image_content);
-                    $product['image'] = 'uploadSportmaster/' . $img_link . '.jpg';
+                    Storage::put('Upload/' . $img_link . '.jpg', $image_content); // link to storage
+                    $path = public_path().'\storage\Folder'; // link to public
+                    if (!File::exists($path))
+                    {
+                        File::put($path, $image_content);
+                        $product['image'] = 'Folder/' . $img_link . '.jpg'; // link to file
+
+                    }
                     fputs($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
                     fputcsv($file, array($product['title'], $product['description'], $product['image'], $product['price'], $product['created_at'], $product['updated_at'], $product['isApproved']
                     ));
@@ -65,8 +71,7 @@ class ParserController
                 echo "Cannot find file";
             }
             fclose($file);
-
-            echo $numPage;
+            // i have question about file  usage of csv library, eg: https://csv.thephpleague.com
         }
 
         echo 'finished';

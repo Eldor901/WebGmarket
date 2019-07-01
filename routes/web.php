@@ -57,7 +57,6 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/controlMarkets', 'adminController@controlMarkets')->name('controlMarkets');
     Route::DELETE('/controlMarkets', 'adminController@destroyMarket')->name('admin.destroyMarket');
     Route::PUT('/controlProducts', 'adminController@UpdateApprovement')->name('controlProducts.UpdateApprovement');
-    Route::get('/getAjaxContent', 'adminController@getAjaxContent')->name('getAjaxContent');
 });
 
 
