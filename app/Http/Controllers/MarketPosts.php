@@ -74,7 +74,7 @@ class MarketPosts extends Controller
      */
     public function show($id_product)
     {
-        $post = Product::find($id_product);
+        $post = Product::findOrFail($id_product);
 
         return view('product.pages.create')->withPost($post);
     }
@@ -87,7 +87,7 @@ class MarketPosts extends Controller
      */
     public function edit($id_product)
     {
-        $post = Product::find($id_product);
+        $post = Product::findOrFail($id_product);
 
         return view('product.pages.edit')->withPost($post);
     }
@@ -101,7 +101,7 @@ class MarketPosts extends Controller
      */
     public function update(Request $request, $id_product)
     {
-        $post = Product::find($id_product);
+        $post = Product::findOrFail($id_product);
 
         if ($request->hasFile('url_product'))
         {
@@ -127,7 +127,7 @@ class MarketPosts extends Controller
      */
     public function destroy($id_product)
     {
-        $post = Product::find($id_product);
+        $post = Product::findOrFail($id_product);
         $post -> delete();
 
         return redirect() -> route('addForm.index');
@@ -136,7 +136,7 @@ class MarketPosts extends Controller
     public function deleteProduct(Request $request)
     {
         if ($request->ajax()) {
-            $post = Product::find($request->input('id'));
+            $post = Product::findOrFail($request->input('id'));
             $post->delete();
         }
     }
