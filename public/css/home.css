@@ -30,3 +30,8 @@
 {
     margin-top: 5px;
 }
+
+.select-wrapper input.select-dropdown
+{
+    border-bottom: none!important;
+}

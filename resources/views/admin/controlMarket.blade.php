@@ -63,4 +63,5 @@
     </script>
 
 
+    <script src="{{ asset('js/refactoring.js')}}"></script>
 @endsection

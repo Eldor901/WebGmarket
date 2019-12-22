@@ -6,22 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
+
 class User extends Authenticatable
 {
     use Notifiable;
-
-    public function  city()
-    {
-        return $this->belongsTo('App\City', 'id_city', 'id_city');
-    }
-
-    public function products()
-    {
-        return $this->belongsToMany('App\Product', 'product_user', 'market_id', 'product_id')->withTimestamps();
-    }
-
-
-    protected $primaryKey = 'id_market';
+    protected $primaryKey = 'id_user';
 
     /**
      * The attributes that are mass assignable.
@@ -29,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name_market', 'email', 'password', 'description_market', 'number_market', 'id_city',
+         'email', 'password',
     ];
 
     /**
@@ -52,6 +42,14 @@ class User extends Authenticatable
 
     public function getId()
     {
-        return $this->id_market;
+        return $this->id_user;
     }
+
+    public  function market()
+    {
+        return $this->hasOne('App\Market', 'id_user', 'id_user');
+    }
+
+
+
 }

@@ -31,12 +31,12 @@
             <tbody>
             @foreach($postProduct as $post_product)
                     <tr>
-                        <td class="productname">{{$post_product -> name_product}}</td>
-                        <td class=""><img src="{{ asset('/storage/' . $post_product->url_product) }}" alt="{{ $post_product->name_product }}" class="responsive-img photo_correction"></td>
+                        <td class="productname">{{$post_product -> name}}</td>
+                        <td class=""><img src="{{ asset('/storage/' . $post_product->url) }}" alt="{{ $post_product->name }}" class="responsive-img photo_correction"></td>
                         <td>{{ Carbon\Carbon::parse($post_product->created_at)->format('d.m.Y') }}</td>
                         <td>
                             <div class="row product_post_row">
-                                <a class="modal-trigger btn btn-primary col s3   show_margin" href="#{{$post_product -> name_product}}">
+                                <a class="modal-trigger btn btn-primary col s3  show_margin" href="#{{$post_product -> name}}">
                                     <i class="material-icons">insert_comment</i>
                                 </a>
                                 {!! Form::open(['method' => 'DELETE', 'route' => ['admin.destroyProduct', $post_product -> id_product]]) !!}
@@ -61,7 +61,7 @@
 
 
     @foreach($postProduct as $post_product)
-        <div id="{{$post_product -> name_product}}" class="modal">
+        <div id="{{$post_product -> name}}" class="modal">
             <div class="model-header">
                 <a href="#!" class="modal-action modal-close waves-effect  btn-primary ">
                     <i class="material-icons right close_modal">close</i>
@@ -72,10 +72,8 @@
             </div>
             <div class="modal-content right">
                 <p>Data: {{ Carbon\Carbon::parse($post_product->created_at)->format('d m Y') }}</p>
-                <h5>Market Name: {{$post_product->users()->pluck('name_market')->implode(', ')}}</h5>
-                <p>Description product: {{$post_product->description_product}}</p>
-                <p><i class="material-icons left color_icon">email</i>Market Email: {{$post_product->users()->pluck('email')->implode(', ')}}</p>
-                <h6><i class="material-icons left color_icon">phone</i>Market Phone Number: {{$post_product->users()->pluck('number_market')->implode(', ')}}</h6>
+                <h5>Market Name: {{$post_product->users()->pluck('name')->implode(', ')}}</h5>
+                <p>Description product: {{$post_product->description}}</p>
             </div>
         </div>
     @endforeach

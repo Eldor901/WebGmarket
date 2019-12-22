@@ -2,63 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Currency;
 use App\User;
 use Illuminate\Http\Request;
 use App\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Market;
 
 use DB;
 
 
 class MarketPosts extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $postProduct = auth()->user()->products()->paginate(30);
-        $products = auth()->user()->products()->get();
+        $postProduct = auth()->user()->market()->first()->products()->paginate(30);
+        $products = auth()->user()->market()->first()->products()->get();
 
         return view('product.pages.index',['postProduct' => $postProduct, 'product' => $products]);
     }
 
-    /*
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('product.pages.create',
-            ['user' => [], 'products' => Product::get()]);
+            ['user' => [], 'products' => Product::get(), 'currencies' => Currency::all(), 'categories' => Category::all()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
         $path = $request->file('url_product')->store('uploads', 'public');
         $post = new product();
-        $post -> name_product = $request -> product_type;
-        $post -> url_product = $path;
+        $post -> name = $request -> product_type;
+        $post -> url = $path;
         //$post -> url_product = $request-> photo_upload;
-        $post -> description_product = $request-> photo_description;
+        $post -> description = $request-> photo_description;
         $post -> price = $request-> price;
-
+        $post->id_currency = $request -> currency;
         $post -> save();
-
-        $user_id = auth()->user('id_market');
         $id_product = $post-> id_product;
 
-        $user_id -> products()->attach($id_product);
+        $id_market = Auth::user()->market('id_market')->first();
+        $id_market->products()->attach($id_product);
+
+        if($request->input('categories')):
+            $post->category()->attach($request->input('categories'));
+         endif;
 
         session()->flash('notif', 'Succses in saving product');
 
@@ -66,69 +58,57 @@ class MarketPosts extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id_product)
     {
         $post = Product::findOrFail($id_product);
-
-        return view('product.pages.create')->withPost($post);
+        return view('product.pages.create',['post' => $post, 'currencies' => Currency::All(),  'categories' => Category::all()]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id_product)
     {
         $post = Product::findOrFail($id_product);
 
-        return view('product.pages.edit')->withPost($post);
+        return view('product.pages.edit', ['post' => $post, 'currencies' => Currency::All(),  'categories' => Category::all()] );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id_product)
     {
         $post = Product::findOrFail($id_product);
 
         if ($request->hasFile('url_product'))
         {
-            Storage::disk('public')->delete($post->url_product);
+            Storage::disk('public')->delete($post->url);
             $path = $request->file('url_product')->store('uploads', 'public');
-            $post->url_product = $path;
+            $post->url = $path;
         }
-        $post -> name_product = $request -> product_type;
-        $post -> description_product = $request-> photo_description;
-        $post -> price = $request-> price;
-        $post -> isApproved = '0';
 
-        $post->save();
+
+        $post -> name = $request -> name;
+        $post -> description = $request-> description;
+        $post -> price = $request-> price;
+        $post->id_currency = $request -> currency;
+        $post -> isApproved = '0';
+        $post -> save();
+
+        $post->category()->detach();
+
+        if($request->input('categories')):
+            $post->category()->attach($request->input('categories'));
+        endif;
+
+
         return redirect()->route('addForm.index', $post->id_product);
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id_product)
     {
         $post = Product::findOrFail($id_product);
         $post -> delete();
+        $id_market = Auth::user()->market('id_market')->first();
+        $id_market->products()->detach($id_product);
 
         return redirect() -> route('addForm.index');
     }

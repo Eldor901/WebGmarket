@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Market;
 use App\Product;
-use App\Http\Controllers\Posts;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
@@ -35,20 +36,24 @@ class HomeController extends Controller
 
     public function edit($id_market)
     {
-        $id_market = User::findOrFail($id_market);
-        return view('auth.editMarket')-> withPost($id_market);
+        $post = Market::findOrFail($id_market);
+
+        return view('auth.editMarket')-> withPost($post);
     }
 
     public function update(Request $request, $id_market)
     {
-        $post = User::findOrFail($id_market);
+        $post = Market::findOrFail($id_market);
 
-        $post->name_market = $request -> name_market;
-        $post->description_market = $request -> description_market;
-        $post->number_market = $request -> number_market;
+        $post -> name = $request -> name;
+        $post -> description = $request-> description;
+        $post -> phone = $request-> number;
+        ($post->user()->count()) ?
+            $post->user()->update($request->only('email')):
+            $post->user()->create($request->only('email'));
 
         $post->save();
 
-        return view('home');
+        return view('home')->with('succes', 'Market has been edited');
     }
 }

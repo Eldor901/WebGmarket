@@ -6,32 +6,22 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
+    protected $primaryKey = 'id_user';
+
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->Increments('id_market');
-            $table->string('name_market');
-            $table->text('description_market');
-            $table->string('number_market');
-            $table->bigInteger('id_city');
+            $table->Increments('id_user');
             $table->string('email')->unique();
             $table->string('password');
+            $table->tinyInteger('isAdmin')->default(0);
             $table->rememberToken();
             $table->timestamps();
-            $table->tinyInteger('isAdmin')->default(0);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
         Schema::dropIfExists('users');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use Illuminate\Http\Request;
 use App\Product;
 use App\User;
@@ -14,30 +15,60 @@ class SearchController extends Controller
     {
         $city = $request ->input('city');
         $search = $request->input('search');
+        $gender = $request->input('gender');
+        $typeCloth = $request->input('typeCloth');
+
 
         $name_city = $city;
         $search = ( mb_substr($search, 0, -2));
 
+        $search = "%".$search."%";
+        $sql = 'SELECT  *  FROM `products`
+LEFT JOIN `product_market` ON `products`.id_product = `product_market`.product_id
+LEFT JOIN `markets` ON `product_market`.market_id = `markets`.id_market
+LEFT JOIN `cities` ON `markets`.id_city = `cities`.id_city
+LEFT JOIN `category_product` ON `products`.id_product = `category_product`.id_product
+LEFT JOIN `categories` ON `category_product`.id_category = `categories`.id_category
+LEFT JOIN `currencies` ON `products`.id_currency = `currencies`.id_currency
+WHERE `cities`.name = "'.$name_city.'" AND `products`.name LIKE  "'.$search.'"  AND `categories`.name = "'.$gender.'"
+  AND EXISTS(
+    select  * FROM `products`
+    LEFT JOIN `product_market` ON `products`.id_product = `product_market`.product_id
+    LEFT JOIN `markets` ON `product_market`.market_id = `markets`.id_market
+    LEFT JOIN `cities` ON `markets`.id_city = `cities`.id_city
+    LEFT JOIN `category_product` ON `products`.id_product = `category_product`.id_product
+    LEFT JOIN `categories` ON `category_product`.id_category = `categories`.id_category
+    LEFT JOIN `currencies` ON `products`.id_currency = `currencies`.id_currency
+    WHERE `cities`.name = "'.$name_city.'" AND `products`.name LIKE  "'.$search.'"   AND `categories`.name = "'.$typeCloth.'"
+)';
 
 
-        $products = Product::leftJoin('product_user', 'products.id_product', '=', 'product_user.product_id')
-            ->leftJoin('users', 'product_user.market_id', '=', 'users.id_market')
-            ->leftJoin('cities', 'users.id_city', '=', 'cities.id_city')
-            ->where('cities.name_city', '=', $city)
-            ->where('products.name_product', 'LIKE', '%' .$search. '__%')
-            ->where('products.isApproved', '=', '1')
-            ->groupBy('products.id_product')
-            ->paginate(28);
+
+  if ($typeCloth == 'all')
+      $sql = 'SELECT  *  FROM `products`
+LEFT JOIN `product_market` ON `products`.id_product = `product_market`.product_id
+LEFT JOIN `markets` ON `product_market`.market_id = `markets`.id_market
+LEFT JOIN `cities` ON `markets`.id_city = `cities`.id_city
+LEFT JOIN `category_product` ON `products`.id_product = `category_product`.id_product
+LEFT JOIN `categories` ON `category_product`.id_category = `categories`.id_category
+LEFT JOIN `currencies` ON `products`.id_currency = `currencies`.id_currency
+WHERE `cities`.name = "'.$name_city.'" AND `products`.name LIKE  "'.$search.'"  AND `categories`.name = "'.$gender.'"';
 
 
-        return view('product.search',['products' => $products, 'name_city' => $name_city]);
+        $products = DB::select($sql);
+
+    return view('product.search',['products' => $products, 'name_city' => $name_city]);
     }
 
     public function showProduct($product_id)
     {
-        $post = Product::find($product_id);
+        $post = Product::findorfail($product_id);
 
-        return view('product.showProduct')->withPost($post);
+        $comments = $post->comments;
+
+
+
+        return view('product.showProduct',  ['comments' => $comments])->withPost($post);
     }
 
 
@@ -48,16 +79,34 @@ class SearchController extends Controller
 
         if ($search != ' ')
         {
-            $postProduct = auth()->user()->products()->Where('name_product', 'LIKE', '%' . $search . '%')->paginate(30);
 
+            $postProduct = auth()->user()->market()->first()->products()->Where('name', 'LIKE', '%' . $search . '%')->paginate(30);
         }
         else
         {
-            $postProduct = auth()->user()->products()->paginate(30);
+            $postProduct = auth()->market()->products()->paginate(30);
         }
 
-        $products = auth()->user()->products()->get();
+        $products = auth()->user()->market()->first()->products()->get();
 
         return view('product.pages.index',['postProduct' => $postProduct,'product' => $products]);
+    }
+
+
+    public function showPopularProducts($city)
+    {
+        $sql = 'SELECT *, avg(stars) as avg_stars, count(stars) as avg_num FROM `comments`
+LEFT JOIN `products` ON `comments`.id_product = `products`.id_product
+LEFT JOIN `product_market` ON `products`.id_product = `product_market`.product_id
+LEFT JOIN `markets` ON `product_market`.market_id = `markets`.id_market
+LEFT JOIN `cities` ON `markets`.id_city = `cities`.id_city
+LEFT JOIN `currencies` ON `products`.id_currency = `currencies`.id_currency
+WHERE (`cities`.name = "Uzbekisan Tashkent")
+GROUP BY `products`.id_product
+HAVING AVG(stars) >= 0 AND count(stars) >= 0';
+
+
+        $products = DB::select($sql);
+        return view('product.showPopular', ['products' => $products, 'name_city' => $city] );
     }
 }

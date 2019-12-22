@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -59,7 +60,6 @@ class adminController extends Controller
         if ($request->ajax()){
             try {
 
-
                 $post = User::find($request->input('id'));
                 $post->delete();
             }
@@ -87,4 +87,31 @@ class adminController extends Controller
         }
     }
 
+
+    public function controlComments()
+    {
+        $comments = Comment::where('is_approved', '0')->paginate(20);
+
+        if (Auth::user()->isAdmin == 1) {
+            return view('admin.controlComments', ['comments' => $comments]);
+        }
+
+        return abort(404);
+
+    }
+
+    public function destroyComments(Request $request)
+    {
+        if($request->ajax()){
+            try
+            {
+                $post = Comment::find($request->input('id'));
+                $post->delete();
+            }
+            catch (Exception $e)
+            {
+                throw new Exception($e->getMessage());
+            }
+        }
+    }
 }

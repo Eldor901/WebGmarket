@@ -28,57 +28,71 @@
                 <div class="col s12 Product_add_style">
                     <h1 class="align-content-center font_add_product"> Edit Yourt Market</h1>
                 </div>
-                {!! Form::model(Auth::user(), array('route' => array('home/update', Auth::user()->id_market), 'method' => 'PUT'))!!}
+
+                {!! Form::model($post, array('route' => array('home/update', $post -> id_market), 'files' => true, 'method' => 'PUT')) !!}
                 @csrf
-                    <div class="form-group row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">store</i>
-                            {{ Form::label('name_market', 'MarketName: ') }}
-                            <input id="name_market" type="text" class="validate" required="" aria-required="true" name="name_market" value="{{Auth::user()->name_market}}">
-                        </div>
-                        @if ($errors->has('name_market'))
-                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('name_market') }}</strong>
+                <div class="form-group row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">store</i>
+                        {{ Form::label('name', 'MarketName: ') }}
+                        <input id="name" type="text" class="validate" required="" aria-required="true" name="name" value="{{$post->name}}">
+                    </div>
+                    @if ($errors->has('name_market'))
+                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('name') }}</strong>
                                         </span>5
-                        @endif
-                    </div>
+                    @endif
+                </div>
 
-                    <div class="form-group row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">message</i>
-                            {{ Form::label('description_market', 'Market Description: ') }}
-                            <input id="description_market" type="text" class="validate" required="" aria-required="true" name="description_market" value="{{Auth::user()->description_market}}">
-                        </div>
-                        @if ($errors->has('description_market'))
-                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('description_market') }}</strong>
+                <div class="form-group row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">message</i>
+                        {{ Form::label('description', 'Market Description: ') }}
+                        <input id="description_market" type="text" class="validate" required="" aria-required="true" name="description" value="{{$post->description}}">
+                    </div>
+                    @if ($errors->has('description'))
+                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('description') }}</strong>
                             </span>
-                        @endif
+                    @endif
+                </div>
+
+                <div class="form-group row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">phone_number</i>
+                        {{ Form::label('number', 'Phone Number: ') }}
+                        <input id="number" type="number" class="validate" required="" aria-required="true" name="number" value="{{$post->phone}}">
                     </div>
-
-
-
-                    <div class="form-group row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">phone_number</i>
-                            {{ Form::label('number_market', 'Phone Number: ') }}
-                            <input id="number_market" type="number" class="validate" required="" aria-required="true" name="number_market" value="{{Auth::user()->number_market}}">
-                        </div>
-                        @if ($errors->has('number_market'))
-                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('number_market') }}</strong>
+                    @if ($errors->has('number'))
+                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('number') }}</strong>
                                         </span>
-                        @endif
-                    </div>
+                    @endif
+                </div>
 
 
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary" style="margin-left: 20px">
-                                {{ __('Update') }}
-                            </button>
-                        </div>
+                <div class="form-group row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">email</i>
+                        {{ Form::label('email', 'email: ') }}
+                        <input id="number" type="email" class="validate" required="" aria-required="true" name="email" value="{{$post->user->email}}">
                     </div>
+                    @if ($errors->has('email'))
+                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                    @endif
+                </div>
+
+
+
+                <div class="form-group row mb-0">
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="btn btn-primary" style="margin-left: 20px">
+                            {{ __('Update') }}
+                        </button>
+                    </div>
+                </div>
                 {!! Form::close() !!}
             </div>
         </div>

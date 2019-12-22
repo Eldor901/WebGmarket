@@ -6,15 +6,23 @@
     <link rel="stylesheet" href="{{asset('css/Addform.css')}}">
     <link rel="stylesheet" href="{{asset('css/productIndexStyle.css')}}">
     <link rel="stylesheet" href="{{asset('css/pagination.css')}}">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <!-- Scripts -->
+
+    <script src="{{ asset('js/sortable-tables.min.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
+
 @endsection
 
 @section('content')
+
 
     <h3 class="center-align">My Posted Products</h3>
 
@@ -36,24 +44,24 @@
 
     @if(count($postProduct) > 0)
     {{$postProduct->appends(request()->input())->links()}}
-    <table class="highlight centered responsive-table pagination_table" id="table">
+    <table class="highlight sortable-table centered responsive-table pagination_table" id="table">
         <thead>
         <tr>
-            <th>name</th>
-            <th>Price</th>
-            <th>Data(d.m.y)</th>
-            <th>Actionns</th>
+            <th class="sortable ">name</th>
+            <th class="sortable z-depth-1  numeric-sort">Price</th>
+            <th class="sortable ">Data(d.m.y)</th>
+            <th class="z-depth-1">Actions</th>
         </tr>
         </thead>
             <tbody>
                 @foreach($postProduct as $post_product)
                     <tr>
-                        <td class="width_name_product">{{$post_product -> name_product}}</td>
-                        <td>{{$post_product -> price}}</td>
+                        <td class="width_name_product">{{$post_product -> name}}</td>
+                        <td href="javascript:void(0)">{{$post_product -> price}} {{$post_product->currency->nominal}}</td>
                         <td>{{ Carbon\Carbon::parse($post_product->created_at)->format('d.m.Y') }}</td>
                         <td>
                             <div class="row product_post_row">
-                                <a class="modal-trigger btn btn-primary col s2  offset-s3 show_margin " href="#{{$post_product -> name_product}}">
+                                <a class="modal-trigger btn btn-primary col s2  offset-s3 show_margin " href="#{{$post_product -> name}}">
                                     <i class="material-icons">insert_comment</i>
                                 </a>
                                 <a href="{{ URL::to('addForm/' . $post_product -> id_product) . '/edit' }}" class="btn  orange col s2 show_margin">
@@ -76,7 +84,7 @@
     @endif
 
     @foreach($postProduct as $post_product)
-        <div id="{{$post_product -> name_product}}" class="modal">
+        <div id="{{$post_product -> name}}" class="modal">
             <div class="model-header">
                 <a href="#!" class="modal-action modal-close waves-effect  btn-primary ">
                     <i class="material-icons right close_modal">close</i>
@@ -85,20 +93,22 @@
             <div class="modal-content">
                 <div class="modal-content left modal_content_left">
                     <p>{{ Carbon\Carbon::parse($post_product->created_at)->format('d m Y') }}</p>
-                    <img src="{{ asset('/storage/' . $post_product->url_product) }}" alt="{{ $post_product->name_product }}" class="responsive-img img_height">
+                    <img src="{{ asset('/storage/' . $post_product->url) }}" alt="{{ $post_product->name_product }}" class="responsive-img img_height">
                 </div>
                 <div class="modal-content right modal_content_right">
-                    <h5> {{$post_product->name_product}}</h5>
-                    <p> {{$post_product -> price}}</p>
-                    <p class="modal_description_product">{{$post_product->description_product}}</p>
+                    <h5> {{$post_product->name}}</h5>
+                    <p> {{$post_product -> price}} {{$post_product->currency->nominal }}</p>
+                    <p class="modal_description_product">{{$post_product->description}}</p>
                 </div>
             </div>
         </div>
     @endforeach
+    <script src="{{asset('js/app.js')}}"></script>
 @endsection
 
 
 @section('js')
+    <script src="{{ asset('js/refactoring.js')}}"></script>
 <script >
     $(document).ready(function(){
         $('.modal').modal();
@@ -110,21 +120,14 @@
         data:
             {
                 @foreach($postProduct as $post_product)
-                    "{{$post_product->name_product}}": null,
+                    "{{$post_product->name}}": null,
                 @endforeach
 
                 @foreach($product as $products)
-                "{{$products->name_product}}": null,
+                "{{$products->name}}": null,
                 @endforeach
-
-
-
             }
     };
-
-
-
-
 
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.autocomplete');
@@ -133,7 +136,8 @@
 
 
     });
+
 </script>
 
-<script src="{{ asset('js/refactoring.js')}}"></script>
+
 @endsection

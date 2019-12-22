@@ -19,62 +19,6 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
 
-
-                            <div class="form-group row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">location_city</i>
-                                    {{ Form::label('id_city', 'Your City: ') }}
-                                    <input id="id_city" type="text" class="validate autocomplete" required="" aria-required="true" name="id_city">
-                                </div>
-                                @if ($errors->has('id_city'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('id_city') }}</strong>
-                                    </span>5
-                                @endif
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">store</i>
-                                    {{ Form::label('name_market', 'MarketName: ') }}
-                                    <input id="name_market" type="text" class="validate" required="" aria-required="true" name="name_market" >
-                                </div>
-                                @if ($errors->has('name_market'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name_market') }}</strong>
-                                    </span>5
-                                @endif
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">message</i>
-                                    {{ Form::label('description_market', 'Market Location: ') }}
-                                    <input id="description_market" type="text" class="validate" required="" aria-required="true" name="description_market">
-                                </div>
-                                @if ($errors->has('description_market'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('description_market') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-
-
-                            <div class="form-group row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">phone_number</i>
-                                    {{ Form::label('number_market', 'Phone Number: ') }}
-                                    <input id="number_market" type="number" class="validate" required="" aria-required="true" name="number_market">
-                                </div>
-                                @if ($errors->has('number_market'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('number_market') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-
                             <div class="form-group row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">email</i>
@@ -87,8 +31,6 @@
                                     </span>
                                 @endif
                             </div>
-
-
                             <div class="form-group row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">remove_red_eye</i>

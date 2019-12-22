@@ -25,6 +25,7 @@
     <li><a href="{{route('controlProducts')}}">Control Products</a></li>
     <li><div class="divider"></div></li>
     <li><a href="{{route('controlMarkets')}}">Control Market</a></li>
+    <li><a href="{{route('controlComments')}}">Control Comments</a> </li>
     <li>
         <a class="dropdown-item waves-effect" href="{{ route('logout') }}"
            onclick="event.preventDefault();

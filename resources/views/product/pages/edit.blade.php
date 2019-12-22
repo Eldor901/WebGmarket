@@ -33,30 +33,52 @@
                 {!! Form::model($post, array('route' => array('addForm.update', $post -> id_product), 'files' => true, 'method' => 'PUT')) !!}
                 <div class="input-field col s12">
                     <i class="material-icons prefix">style</i>
-                    {{ Form::label('product_type', 'Product Type: ') }}
-                    <input id="product_type" type="text" class="validate" required="" aria-required="true" name="product_type" value="{{$post->name_product}}">
+                    {{ Form::label('name', 'Product Type: ') }}
+                    <input id="name" type="text" class="validate" required="" value="{{$post->name}}" aria-required="true" name="name" >
                 </div>
                 <div class="file-field input-field col s12">
                     <div class="file-field input-field">
                         <div class="btn">
                             <span>File</span>
-                            <input type="file" name="url_product">
+                            <input type="file" name="url" value="{{$post->url}}">
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" value="{{$post->url_product}}">
+                            <input class="file-path validate" type="text">
                         </div>
                     </div>
                 </div>
                 <div class="input-field col s12">
                     <i class="material-icons prefix">message</i>
-                    {{ Form::label('photo_description', 'Photo Description: ') }}
-                    <input id="photo_description" type="text" class="validate" required="" aria-required="true" name="photo_description" value="{{$post->description_product}}">
+                    {{ Form::label('description', 'Photo Description: ') }}
+                    <input id="description" type="text" class="validate" required="" value="{{$post->description}}" aria-required="true" name="description">
                 </div>
 
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">message</i>
+                <div class="input-field col s8">
+                    <i class="material-icons prefix">money</i>
                     {{ Form::label('price', 'Price: ') }}
-                    <input id="price" type="text" class="validate" required="" aria-required="true" name="price" value="{{$post -> price}}">
+                    <input id="price" type="number" class="validate"  value="{{$post->price}}" required="" aria-required="true" name="price">
+                </div>
+
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">Currencies</i>
+                    <select name="currency">
+                        @foreach($currencies as $currency)
+                            <option value="{{$currency->id_currency}}">{{$currency->nominal}}</option>
+                        @endforeach
+                    </select>
+                    {{ Form::label('currency', 'Currency: ') }}
+                </div>
+                <div style="display: inline-block; margin-bottom: 50px">
+                     @foreach($categories as $category)
+                        <label class="col s3">
+                            <input type="checkbox" name="categories[]" value="{{$category->id_category}}"
+                            @if($post->category->where('id_category', $category->id_category)->count())
+                                checked="checked"
+                            @endif
+                            >
+                            <span>{{$category->name}}</span>
+                        </label>
+                    @endforeach
                 </div>
                 <div class="form-field center-align submit_btn">
                     {{ Form::submit('Edit', ['class' => 'btn-large waves-effect waves-light indigo lighten-1 ']) }}

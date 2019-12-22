@@ -44,3 +44,13 @@
 {
     width: 400px;
 }
+
+.sortable
+{
+    cursor: pointer;
+}
+
+.sortable::after {
+    content: "▼▲";
+}
+

@@ -39,7 +39,7 @@
     <li><a href="/addForm " class="waves-effect">My Products</a></li>
     <li><a href="/addForm/create">AddProduct</a></li>
     <li><div class="divider"></div></li>
-    <li><a href="/home/{{Auth::user()->id_market}}/edit">Edit Market</a></li>
+    <li><a href="/home/{{Auth::user()->market()->first()->id_market}}/edit">Edit Market</a></li>
     <li>
         <a class="dropdown-item waves-effect" href="{{ route('logout') }}"
            onclick="event.preventDefault();

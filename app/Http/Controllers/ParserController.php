@@ -46,6 +46,7 @@ class ParserController
                         'updated_at' => date("Y-m-d H:i:s"),
                         'isApproved' => '1'
                     ];
+
                     return $product;
                 }
             });
