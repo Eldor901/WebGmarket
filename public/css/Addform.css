@@ -28,3 +28,8 @@
 {
     color: white;
 }
+
+.pointLink
+{
+    cursor: pointer;
+}

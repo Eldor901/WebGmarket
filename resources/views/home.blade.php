@@ -34,6 +34,7 @@
                                                 <p>Page AddProduct allows you add your markets product. You can add  any number of products. The only thing is you have to fill form every
                                                     time when you add new product
                                                 </p>
+                                                <a> </a>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -57,7 +58,7 @@
                                         </div>
                                     </div>
                                     <div class="card-action">
-                                        <a data-target="slide-out" class="sidenav-trigger show-on-medium-and-up show-on-medium-and-down">Menu</a>
+                                        <a data-target="slide-out" class="pointLink sidenav-trigger show-on-medium-and-up show-on-medium-and-down">Menu</a>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +83,7 @@
                                             </div>
                                         </div>
                                     <div class="card-action">
-                                        <a href="/" class="mdl-button">Search</a>
+                                        <a href="/" class="mdl-button pointLink">Search</a>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +100,7 @@
                                             different cities see prices Products, Information about Markets and so on</p>
                                     </div>
                                     <div class="card-action">
-                                        <a href="#" class="mdl-button">Logout</a>
+                                        <a href="#" class="mdl-button pointLink">Logout</a>
                                     </div>
                                 </div>
                             </div>

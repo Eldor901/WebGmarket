@@ -16,6 +16,11 @@
                             Back
                         </a>
                 </ul>
+                <ul class="left hide-on-med-and-down">
+                    <a href=" {{"/"}} " class="white-text right ">
+                        Gmarket
+                    </a>
+                </ul>
             </div>
         </div>
     </nav>

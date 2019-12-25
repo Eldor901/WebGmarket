@@ -21,9 +21,9 @@
         <table class="highlight centered responsive-table" id="table">
             <thead>
             <tr>
-                <th>Data(d.m.y)</th>
                 <th>name</th>
                 <th>Email</th>
+                <th>Data</th>
                 <th>Actionns</th>
             </tr>
             </thead>
@@ -31,7 +31,7 @@
             @foreach($postMarket as $post_market)
                     @if ($post_market ->isAdmin != 1)
                         <tr>
-                            <td>{{$post_market -> name_market}}</td>
+                            <td>{{$post_market->market->name}}</td>
                             <td>{{$post_market -> email}}</td>
                             <td>{{ Carbon\Carbon::parse($post_market->created_at)->format('d.m.Y') }}</td>
                             <td class="td_btn">
