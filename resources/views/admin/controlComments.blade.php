@@ -12,18 +12,25 @@
     <!--  -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+
+    <script src="{{ asset('js/sortable-tables.min.js')}}"></script>
 @endsection
 
 @section('content')
+
     @if(count($comments) > 0)
 
-        <table class="highlight centered responsive-table centered" id="table">
+        <table class="highlight  centered responsive-table centered" id="table">
+
             <h3 class="center-align">All Comments</h3>
+
+            {{ $comments->links() }}
             <thead>
                 <tr>
-                    <th>Data(d.m.y)</th>
-                    <th>email</th>
-                    <th>rating out of 5</th>
+                    <th class="sortable">@sortablelink('created_at', 'Data')</th>
+                    <th class="sortable">@sortablelink('email', 'Email')</th>
+                    <th class="sortable">@sortablelink('is_approved', 'Approve')</th>
+                    <th class="sortable">@sortablelink('stars', 'rating out of 5')</th>
                     <th>Actionns</th>
                 </tr>
             </thead>
@@ -32,6 +39,13 @@
                     <tr>
                         <td>{{ Carbon\Carbon::parse($comment->created_at)->format('d.m.Y') }}</td>
                         <td class="commentemail">{{$comment -> email}}</td>
+                        <td class="center numeric-sort">
+                         @if($comment -> is_approved == '1')
+                              Yes
+                          @else
+                             NO
+                           @endif
+                         </td>
                         <td class="">{{$comment -> stars}}</td>
                         <td>
                             <div class="row product_post_row">
@@ -62,9 +76,11 @@
                     </a>
                 </div>
                 <div class="modal-content">
-                    <div class="align-content-center" style="text-align: center">
-                        <a class="align-content-center"><img src="{{ asset('/storage/' . $comment->product->url) }}" class="responsive-img photo_correction"></a>
-                    </div>
+                    @isset ($comment->product->url)
+                        <div class="align-content-center" style="text-align: center">
+                            <a class="align-content-center"><img src="{{ asset('/storage/' . $comment->product->url) }}" class="responsive-img photo_correction"></a>
+                        </div>
+                    @endisset
                     <div class="clear"></div>
                     {!! Form::model($comment, array('route' => array('CommentController.updateComment', $comment -> id_comment), 'method' => 'PUT')) !!}
                         <div class="input-field col s12">

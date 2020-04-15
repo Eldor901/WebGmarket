@@ -90,7 +90,7 @@ class adminController extends Controller
 
     public function controlComments()
     {
-        $comments = Comment::where('is_approved', '0')->paginate(20);
+        $comments = Comment::where('is_approved', '0')->orWhere('is_approved', '1')->sortable()->paginate(8);
 
         if (Auth::user()->isAdmin == 1) {
             return view('admin.controlComments', ['comments' => $comments]);

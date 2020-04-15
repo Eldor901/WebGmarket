@@ -66,6 +66,10 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::get('/RegisterMarket', 'RegisterMarket@register')->name('registerMarket');
     Route::post('/RegisterMarket', 'RegisterMarket@storeDetails')->name('storeDetails');
+
+
+    Route::get('/market/{id}/show', 'SearchController@marketProducts');
+
 });
 
 

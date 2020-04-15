@@ -95,18 +95,29 @@ WHERE `cities`.name = "'.$name_city.'" AND `products`.name LIKE  "'.$search.'"  
 
     public function showPopularProducts($city)
     {
-        $sql = 'SELECT *, avg(stars) as avg_stars, count(stars) as avg_num FROM `comments`
+        $sql = 'SELECT *, avg(stars) as avg_stars, COUNT(*) as num FROM `comments`
 LEFT JOIN `products` ON `comments`.id_product = `products`.id_product
 LEFT JOIN `product_market` ON `products`.id_product = `product_market`.product_id
 LEFT JOIN `markets` ON `product_market`.market_id = `markets`.id_market
 LEFT JOIN `cities` ON `markets`.id_city = `cities`.id_city
 LEFT JOIN `currencies` ON `products`.id_currency = `currencies`.id_currency
-WHERE (`cities`.name = "Uzbekisan Tashkent")
+WHERE (`cities`.name = "'.$city.'") AND is_approved = 1
 GROUP BY `products`.id_product
-HAVING AVG(stars) >= 0 AND count(stars) >= 0';
+ORDER BY num DESC;';
 
 
         $products = DB::select($sql);
         return view('product.showPopular', ['products' => $products, 'name_city' => $city] );
+    }
+
+    public function marketProducts($id_user)
+    {
+        $post = User::findorfail($id_user);
+
+        $products = $post->market->products;
+
+        $name_city = "all";
+
+        return view('product.search', ['products' => $products, 'name_city' => $name_city]);
     }
 }

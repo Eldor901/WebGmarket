@@ -31,7 +31,6 @@
                         <div class="card-reveal wrap_word">
                             <span class="card-title grey-text text-darken-4 truncate">{{ $product->name }}<i class="material-icons right">close</i></span>
                             <p>Avrage Rating: {{$product->avg_stars}}</p>
-                            <p>Number of Stars: {{$product->avg_num}}</p>
                         </div>
                         <div class="card-action card_action_link">
                             <a href="{{ URL::to('search/' . $product->id_product) . '/show' }}" class="card_action_link_text">More Info</a>

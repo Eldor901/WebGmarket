@@ -31,8 +31,9 @@
             @foreach($postMarket as $post_market)
                     @if ($post_market ->isAdmin != 1)
                         <tr>
-                            <td>{{$post_market->market->name}}</td>
-                            <td>{{$post_market -> email}}</td>
+                            <td>{{$post_market->market->name }}</td>
+
+                            <td> <a href="{{ URL::to('market/' . $post_market -> id_user) . '/show' }}">  {{$post_market -> email}} </a></td>
                             <td>{{ Carbon\Carbon::parse($post_market->created_at)->format('d.m.Y') }}</td>
                             <td class="td_btn">
                                 <div class="row product_post_row">
